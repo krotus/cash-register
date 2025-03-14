@@ -1,0 +1,30 @@
+name: 🚀 Deploy to VPS
+
+on:
+  push:
+    branches:
+      - master  # Se ejecutará solo cuando se haga push a la rama master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛒 Checkout del Código
+        uses: actions/checkout@v3
+
+      - name: 🔑 Configurar SSH y Probar Conexión
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=no deployer@${{ secrets.SSH_HOST }} "echo '✅ Conexión exitosa a VPS'"
+
+      - name: 🚀 Desplegar Código en el Servidor
+        run: |
+          ssh -o StrictHostKeyChecking=no deployer@${{ secrets.SSH_HOST }} << 'EOF'
+          cd /var/www/cash-register
+          git pull origin master
+          npm install --production
+          pm2 restart all
+          EOF
