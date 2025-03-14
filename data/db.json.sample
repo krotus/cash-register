@@ -1,0 +1,30 @@
+{
+  "productos": [
+    {
+      "id": 1741894590322,
+      "nombre": "refresco",
+      "precio": 2
+    },
+    {
+      "id": 1741894608677,
+      "nombre": "cerveza",
+      "precio": 3
+    },
+    {
+      "id": 1741894619454,
+      "nombre": "agua",
+      "precio": 2
+    },
+    {
+      "id": 1741894627668,
+      "nombre": "cubata",
+      "precio": 5
+    },
+    {
+      "id": 1741896187312,
+      "nombre": "chupitos",
+      "precio": 2
+    }
+  ],
+  "pedidos": []
+}

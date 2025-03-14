@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caja Registradora</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Caja Registradora</span>
+    </div>
+</nav>
+
+<main class="container">
+    <!-- Sección para añadir producto (si aún deseas conservarla) -->
+    <section class="mb-4">
+        <h2 class="h4">Añadir Producto</h2>
+        <form class="row g-3">
+            <div class="col-md-4">
+                <label for="nombreProducto" class="form-label">Nombre</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="nombreProducto"
+                        placeholder="Ej. Manzanas"
+                />
+            </div>
+            <div class="col-md-4">
+                <label for="precioProducto" class="form-label">Precio</label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="precioProducto"
+                        step="0.01"
+                        placeholder="Ej. 1.99"
+                />
+            </div>
+            <div class="col-md-4">
+                <button
+                        id="btnAgregarProducto"
+                        type="button"
+                        class="btn btn-primary w-100"
+                >
+                    Agregar Producto
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Sección principal: Lista de productos como "cards" clicables -->
+    <section class="mb-4">
+        <h2 class="h4">Productos</h2>
+        <!-- Contenedor que muestra las tarjetas de cada producto -->
+        <div id="listaProductos" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3">
+            <!-- Se generarán las tarjetas de productos aquí -->
+        </div>
+    </section>
+
+    <!-- Sección donde muestras y calculas el total -->
+    <section class="mb-5">
+        <h2 class="h4">Resumen de Pedido</h2>
+
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <p class="mb-0 fs-5">
+                Total:
+                <span id="totalPedido" class="fw-bold">0.00</span>
+            </p>
+            <button id="btnLimpiar" class="btn btn-outline-danger">
+                Limpiar Pedido
+            </button>
+        </div>
+
+        <div class="row g-3 align-items-end mb-3">
+            <div class="col-sm-4">
+                <label for="importeEntregado" class="form-label">
+                    Importe Entregado
+                </label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="importeEntregado"
+                        step="0.01"
+                        placeholder="Ej. 50"
+                />
+            </div>
+            <div class="col-sm-3">
+                <button id="btnCalcularCambio" class="btn btn-secondary w-100">
+                    Calcular Cambio
+                </button>
+            </div>
+            <div class="col-sm-5">
+                <p class="mb-0">
+                    <strong>Cambio:</strong>
+                    <span id="cambio">0</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="metodoPago" class="form-label">Método de Pago</label>
+            <select id="metodoPago" class="form-select w-auto">
+                <option value="Efectivo">Efectivo</option>
+                <option value="Tarjeta">Tarjeta</option>
+                <option value="Otros">Otros</option>
+            </select>
+        </div>
+        <button id="btnRegistrarPedido" class="btn btn-success">Registrar Pedido</button>
+    </section>
+
+    <!-- Sección: Historial de pedidos -->
+    <section>
+        <h2 class="h4">Historial de Pedidos</h2>
+        <button id="btnCargarHistorial" class="btn btn-outline-primary mb-3">
+            Mostrar Historial
+        </button>
+        <div id="historialPedidos" class="border rounded p-3 bg-white">
+            <!-- Historial se inyecta aquí -->
+        </div>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

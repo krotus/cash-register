@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <!-- Para diseño responsivo en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estadísticas de Ventas</title>
+    <!-- Bootstrap 5 -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <!-- Chart.js (desde CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Estadísticas</span>
+    </div>
+</nav>
+
+<main class="container">
+    <h1 class="h3 mb-4 text-center">Estadísticas de Ventas</h1>
+
+    <button
+            id="btnCargarEstadisticas"
+            class="btn btn-primary mb-4 d-block mx-auto"
+    >
+        Cargar Estadísticas
+    </button>
+
+    <div
+            id="infoGenerales"
+            class="row row-cols-1 row-cols-md-2 g-4 mb-4 text-center"
+    >
+        <!-- Aquí mostraremos información general: total de pedidos, total ingresado, etc. -->
+    </div>
+
+    <div class="mb-5">
+        <h2 class="h4">Top Productos (Cantidad)</h2>
+        <div class="chart-container" style="height: 300px;">
+            <canvas id="chartTopCantidades"></canvas>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h2 class="h4">Top Productos (Facturación)</h2>
+        <div class="chart-container" style="height: 300px;">
+            <canvas id="chartTopFacturacion"></canvas>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h2 class="h4">Ventas Diarias</h2>
+        <div class="chart-container" style="height: 300px;">
+            <canvas id="chartVentasDiarias"></canvas>
+        </div>
+    </div>
+</main>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Script de estadísticas -->
+<script>
+    document.getElementById('btnCargarEstadisticas')
+        .addEventListener('click', async () => {
+            const resp = await fetch('/api/estadisticas');
+            const data = await resp.json();
+
+            // Información general
+            const infoGeneralesDiv = document.getElementById('infoGenerales');
+            infoGeneralesDiv.innerHTML = `
+          <div class="col">
+            <div class="p-3 border bg-white rounded">
+              <h3 class="h5">Número de pedidos</h3>
+              <p class="fs-5">${data.totalPedidos}</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="p-3 border bg-white rounded">
+              <h3 class="h5">Total ingresado</h3>
+              <p class="fs-5">$${data.totalIngresos.toFixed(2)}</p>
+            </div>
+          </div>
+        `;
+
+            // Top productos (cantidad)
+            const nombresTopCant = data.topProductosPorCantidad
+                .slice(0, 5)
+                .map((p) => p.nombre);
+            const cantidadesTopCant = data.topProductosPorCantidad
+                .slice(0, 5)
+                .map((p) => p.cantidad);
+
+            new Chart(document.getElementById('chartTopCantidades'), {
+                type: 'bar',
+                data: {
+                    labels: nombresTopCant,
+                    datasets: [
+                        {
+                            label: 'Unidades Vendidas',
+                            data: cantidadesTopCant
+                        }
+                    ]
+                }
+            });
+
+            // Top productos (facturación)
+            const nombresTopFact = data.topProductosPorFacturacion
+                .slice(0, 5)
+                .map((p) => p.nombre);
+            const factTopFact = data.topProductosPorFacturacion
+                .slice(0, 5)
+                .map((p) => p.facturacion);
+
+            new Chart(document.getElementById('chartTopFacturacion'), {
+                type: 'bar',
+                data: {
+                    labels: nombresTopFact,
+                    datasets: [
+                        {
+                            label: 'Facturación',
+                            data: factTopFact
+                        }
+                    ]
+                }
+            });
+
+            // Ventas diarias (línea)
+            const fechas = data.ventasDiarias.map((v) => v.fecha);
+            const totales = data.ventasDiarias.map((v) => v.total);
+
+            new Chart(document.getElementById('chartVentasDiarias'), {
+                type: 'line',
+                data: {
+                    labels: fechas,
+                    datasets: [
+                        {
+                            label: 'Total diario',
+                            data: totales
+                        }
+                    ]
+                }
+            });
+        });
+</script>
+</body>
+</html>
