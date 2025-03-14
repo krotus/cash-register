@@ -16,9 +16,11 @@ jobs:
       - name: 🔑 Configurar SSH y Probar Conexión
         run: |
           mkdir -p ~/.ssh
-          ls
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          eval $(ssh-agent -s)
+          echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           ssh -o StrictHostKeyChecking=no deployer@${{ secrets.SSH_HOST }} "echo '✅ Conexión exitosa a VPS'"
 
       - name: 🚀 Desplegar Código en el Servidor
