@@ -45,6 +45,53 @@ app.post('/api/productos', (req, res) => {
     res.json(nuevoProducto);
 });
 
+// Actualizar un producto (PUT)
+app.put('/api/productos/:id', (req, res) => {
+    const db = readDatabase();
+    const { id } = req.params;
+    const { nombre, precio } = req.body;
+
+    // Convertir a número (en caso de que venga como string)
+    const productoId = parseInt(id, 10);
+
+    // Buscar el producto en la lista
+    const index = db.productos.findIndex((p) => p.id === productoId);
+    if (index === -1) {
+        return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    // Actualizar campos (nombre y/o precio)
+    if (nombre !== undefined) {
+        db.productos[index].nombre = nombre;
+    }
+    if (precio !== undefined) {
+        db.productos[index].precio = parseFloat(precio);
+    }
+
+    writeDatabase(db);
+    return res.json(db.productos[index]);
+});
+
+// Borrar un producto (DELETE)
+app.delete('/api/productos/:id', (req, res) => {
+    const db = readDatabase();
+    const { id } = req.params;
+    const productoId = parseInt(id, 10);
+
+    // Buscar el producto
+    const index = db.productos.findIndex((p) => p.id === productoId);
+    if (index === -1) {
+        return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    // Eliminarlo del array
+    const productoEliminado = db.productos.splice(index, 1);
+    writeDatabase(db);
+
+    // Devolver el producto eliminado o un mensaje de confirmación
+    return res.json({ message: 'Producto eliminado', producto: productoEliminado });
+});
+
 // Registrar un pedido
 app.post('/api/pedidos', (req, res) => {
     // Datos esperados: lista de productos (id, cantidad),

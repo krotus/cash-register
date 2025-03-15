@@ -14,9 +14,51 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">Estadísticas</span>
+
+        <!-- LOGOTIPO + TEXTO DE MARCA -->
+        <a class="navbar-brand d-flex align-items-center" href="estadisticas.html">
+            <img
+                    src="img/logo_mobile.jpg"
+                    alt="Noescarmientas"
+                    class="img-fluid me-2 d-md-none"
+                    style="max-height: 40px;"
+            />
+            <img
+                    src="img/logo.png"
+                    alt="Noescarmientas"
+                    class="img-fluid me-2 d-none d-md-block"
+                    style="max-height: 40px;"
+            />
+            <span class="h5 mb-0">Estadísticas</span>
+        </a>
+
+        <!-- BOTÓN PARA COLAPSAR NAV EN MÓVIL -->
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- ENLACES que se plegarán en móvil -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="productos.html" class="nav-link">Gestión de Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Caja Registradora</a>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </nav>
 

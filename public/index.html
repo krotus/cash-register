@@ -4,92 +4,89 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Caja Registradora</title>
-    <!-- Bootstrap 5 -->
     <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
 </head>
 <body class="bg-light">
-
-<!-- Barra de navegación con un enlace a Estadísticas -->
-<nav class="navbar navbar-dark bg-dark mb-4">
+<!-- Barra de navegación -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">Caja Registradora</span>
-        <a href="estadisticas.html" class="btn btn-sm btn-outline-light">
-            Ver Estadísticas
+
+        <!-- LOGOTIPO + TEXTO DE MARCA -->
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img
+                    src="img/logo_mobile.jpg"
+                    alt="Noescarmientas"
+                    class="img-fluid me-2 d-md-none"
+                    style="max-height: 40px;"
+            />
+            <img
+                    src="img/logo.png"
+                    alt="Noescarmientas"
+                    class="img-fluid me-2 d-none d-md-block"
+                    style="max-height: 40px;"
+            />
+            <span class="h5 mb-0">Caja Registradora</span>
         </a>
+
+        <!-- BOTÓN PARA COLAPSAR NAV EN MÓVIL -->
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- ENLACES que se plegarán en móvil -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="productos.html" class="nav-link">Gestión de Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="estadisticas.html" class="nav-link">Ver Estadísticas</a>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </nav>
 
-<main class="container">
-    <!-- Sección para añadir producto (si aún deseas conservarla) -->
-    <section class="mb-4">
-        <h2 class="h4">Añadir Producto</h2>
-        <form class="row g-3">
-            <div class="col-md-4">
-                <label for="nombreProducto" class="form-label">Nombre</label>
-                <input
-                        type="text"
-                        class="form-control"
-                        id="nombreProducto"
-                        placeholder="Ej. Manzanas"
-                />
-            </div>
-            <div class="col-md-4">
-                <label for="precioProducto" class="form-label">Precio</label>
-                <input
-                        type="number"
-                        class="form-control"
-                        id="precioProducto"
-                        step="0.01"
-                        placeholder="Ej. 1.99"
-                />
-            </div>
-            <div class="col-md-4">
-                <button
-                        id="btnAgregarProducto"
-                        type="button"
-                        class="btn btn-primary w-100"
-                >
-                    Agregar Producto
-                </button>
-            </div>
-        </form>
-    </section>
 
-    <!-- Sección principal: Lista de productos como "cards" clicables (sin imágenes) -->
+<main class="container">
+
+    <!-- Sección principal: Lista de productos (sin form de añadir) -->
     <section class="mb-4">
         <h2 class="h4">Productos</h2>
-        <!-- Contenedor que muestra las tarjetas de cada producto -->
         <div
                 id="listaProductos"
                 class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3"
         >
-            <!-- Se generarán las tarjetas de productos aquí (desde app.js) -->
+            <!-- Se generan las tarjetas con botones + y - desde app.js -->
         </div>
     </section>
 
-    <!-- Sección donde muestras y calculas el total -->
+    <!-- Sección Resumen de Pedido -->
     <section class="mb-5">
         <h2 class="h4">Resumen de Pedido</h2>
-
         <div class="d-flex align-items-center justify-content-between mb-3">
             <p class="mb-0 fs-5">
                 <strong>Total:</strong>
                 <span id="totalPedido" class="fw-bold">0.00</span>
             </p>
-            <!-- Botón para limpiar la selección de productos -->
-            <button id="btnLimpiar" class="btn btn-outline-danger">
-                Limpiar Pedido
-            </button>
+            <button id="btnLimpiar" class="btn btn-outline-danger">Limpiar Pedido</button>
         </div>
 
         <div class="row g-3 align-items-end mb-3">
             <div class="col-sm-4">
-                <label for="importeEntregado" class="form-label">
-                    Importe Entregado
-                </label>
+                <label for="importeEntregado" class="form-label">Importe Entregado</label>
                 <input
                         type="number"
                         class="form-control"
@@ -119,28 +116,25 @@
                 <option value="Otros">Otros</option>
             </select>
         </div>
-        <button id="btnRegistrarPedido" class="btn btn-success">
-            Registrar Pedido
-        </button>
+        <button id="btnRegistrarPedido" class="btn btn-success">Registrar Pedido</button>
     </section>
 
-    <!-- Sección: Historial de pedidos -->
+    <!-- Sección Historial de Pedidos -->
     <section>
         <h2 class="h4">Historial de Pedidos</h2>
         <button id="btnCargarHistorial" class="btn btn-outline-primary mb-3">
             Mostrar Historial
         </button>
         <div id="historialPedidos" class="border rounded p-3 bg-white">
-            <!-- Aquí se inyecta el historial desde app.js -->
+            <!-- Historial se inyecta aquí -->
         </div>
     </section>
+
 </main>
 
 <!-- Bootstrap JS -->
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-></script>
-<!-- Tu lógica de frontend -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Lógica de la caja registradora -->
 <script src="app.js"></script>
 </body>
 </html>
