@@ -27,9 +27,24 @@ jobs:
         run: |
           eval $(ssh-agent -s)
           echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
-          ssh -tt -o StrictHostKeyChecking=no deployer@${{ secrets.SSH_HOST }} "
-            cd /var/www/cash-register &&
-            git pull origin master &&
-            npm install --production &&
-            pm2 restart all
-          "
+          ssh -tt -o StrictHostKeyChecking=no deployer@${{ secrets.SSH_HOST }} << 'EOF'
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          cd /var/www/cash-register
+          git pull origin master
+          npm install --production
+          
+          echo "🚀 Iniciando aplicación con PM2..."
+          pm2 delete cash-register || true 
+          pm2 start server.js --name cash-register --silent --no-daemon
+          pm2 save
+          pm2 restart cash-register
+          pm2 list
+          
+          echo "🔄 Reiniciando Nginx..."
+          sudo systemctl restart nginx
+          
+          echo "✅ Despliegue finalizado exitosamente"
+          
+          exit
+          EOF
